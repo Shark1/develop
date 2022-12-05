@@ -1,15 +1,11 @@
 package org.example;
 
-import lombok.Getter;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public final class Bot extends TelegramLongPollingCommandBot {
     private final String BOT_NAME;
@@ -28,8 +24,6 @@ public final class Bot extends TelegramLongPollingCommandBot {
         //регистрируем команды
         register(new GiftCommand("gift", "Подарок"));
         register(new HappyBirthDay("hb", "Поздравление"));
-        register(new GiftCommand("gift", "Подарок"));
-        register(new GiftCommand("gift", "Подарок"));
 
 
         register(new StartCommand("start", "Старт"));
@@ -54,16 +48,16 @@ public final class Bot extends TelegramLongPollingCommandBot {
         Message msg = update.getMessage();
         Long chatId = msg.getChatId();
         String userName = getUserName(msg);
-        String answer;
-
         try {
-            setAnswer(chatId, userName, msg.getText());
+            if (msg.getText().contains("/help") || msg.getText().contains("/hb") || msg.getText().contains("/gift")) {
+                setAnswer(chatId, userName, msg.getText());
+            } else {
+                setAnswer(chatId, userName, "Ненене, напиши /help чтоб получить доступные команды");
+            }
         } catch (NullPointerException e) {
-            answer = "ПАШОЛ НАХУЙ";
-            setAnswer(chatId, userName, answer);
+            setAnswer(chatId, userName, "Ненене, напиши /help чтоб получить доступные команды");
         }
     }
-
 
     /**
      * Формирование имени пользователя
