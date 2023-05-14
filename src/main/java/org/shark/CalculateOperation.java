@@ -1,20 +1,18 @@
 package org.shark;
 
-import static org.shark.Number.ArabicRomanNumbers.*;
-import static org.shark.Number.ArabicRomanNumbers.getRomanByValue;
+import static org.shark.ArabicRomanNumbers.*;
 import static org.shark.Operations.operate;
-import static org.shark.Operations.ArithmeticSign;
 
 public class CalculateOperation {
 
     public static int getResult(int a, String operation, int b) {
-        return operate(a, ArithmeticSign.fromSign(operation), b);
+        return operate(a, operation, b);
     }
 
-    public static String getResult(Number.ArabicRomanNumbers a, String operation, Number.ArabicRomanNumbers b) {
+    public static String getResult(ArabicRomanNumbers a, String operation, ArabicRomanNumbers b) {
         int arabicOperation;
         String result = "";
-        arabicOperation = operate(a.getValue(), ArithmeticSign.fromSign(operation), b.getValue());
+        arabicOperation = operate(a.getValue(), operation, b.getValue());
 
         if ((a.getValue() == L.getValue()) || (a.getValue() == C.getValue()) ||
                 (b.getValue() == L.getValue()) || (b.getValue() == C.getValue())) {
@@ -30,7 +28,7 @@ public class CalculateOperation {
                 arabicOperation -= 10;
                 result += (X);
             } else {
-                result += getRomanByValue(arabicOperation);
+                result += fromValue(arabicOperation);
                 break;
             }
         }
