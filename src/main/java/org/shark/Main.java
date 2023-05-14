@@ -19,6 +19,8 @@ public class Main {
             System.out.println(getResult(ArabicRomanNumbers.valueOf(name[0]), name[1], ArabicRomanNumbers.valueOf(name[2])));
         } catch (IllegalArgumentException e) {
             System.out.println(getResult(Integer.parseInt(name[0]), name[1], Integer.parseInt(name[2])));
+            //логика понятна, но лучше понять на входе какие числа приходят и выбрать обратку в try, а в catch уже конкретно проблемы обрабатывать,
+            //потому что не понятно, что конретно не отработало - то что это не римская цифра, или что-то другое сломалось
         }
 
     }

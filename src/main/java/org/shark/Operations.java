@@ -9,7 +9,7 @@ import static org.shark.Operations.ArithmeticSign.PLUS;
 
 public class Operations {
 
-    public enum ArithmeticSign {
+    public enum ArithmeticSign {//опять как будто можно сделать отдельным классом, либо занести всю логику связанную с ArithmeticSign в Operations и сделать enum приватным
         PLUS("+"),
         MINUS("-"),
         DIVISION("/"),
@@ -22,14 +22,14 @@ public class Operations {
         }
 
         public static ArithmeticSign fromSign(String sign) {
-            return Arrays.stream(values())
+            return Arrays.stream(values())//тоже статическую мапу можно
                     .filter(v -> v.sign.equals(sign) )
-                    .findFirst().orElseThrow();
+                    .findFirst().orElseThrow();//кидай осмсленный эксепшн, желательно с сообщением orElseThrow(() -> new RuntimeException("я дурак"));
         }
     }
 
     public static int operate(int a, ArithmeticSign operation, int b) {
-        return Integer.parseInt(operate(getRomanByValue(a), operation, getRomanByValue(b)));
+        return Integer.parseInt(operate(getRomanByValue(a), operation, getRomanByValue(b)));//null safety нужна
     }
 
     public static String operate(ArabicRomanNumbers a, ArithmeticSign operation, ArabicRomanNumbers b) {
@@ -47,11 +47,11 @@ public class Operations {
                 return multiplication(a, b);
             }
         }
-        return null;
+        return null;//для null safety лучше экспешн выкидывать в default блоке например, или после свитча
     }
 
     private static String sum(ArabicRomanNumbers a, ArabicRomanNumbers b) {
-        return String.valueOf(sum(a.getValue(), b.getValue()));
+        return String.valueOf(sum(a.getValue(), b.getValue()));//лишее, int сам спарсится в строку при выводе
     }
 
     private static int sum(int a, int b) {
