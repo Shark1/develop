@@ -1,39 +1,47 @@
 package org.shark;
 
-import org.shark.Number.ArabicRomanNumbers;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.Arrays;
-
-import static org.shark.Number.ArabicRomanNumbers.*;
-import static org.shark.Operations.ArithmeticSign.PLUS;
+import static org.shark.ArabicRomanNumbers.fromValue;
 
 public class Operations {
 
-    public enum ArithmeticSign {
+    private enum ArithmeticSign {
         PLUS("+"),
         MINUS("-"),
         DIVISION("/"),
         MULTIPLICATION("*");
 
-        private String sign;
+        private final String SIGN;
 
         ArithmeticSign(String sign) {
-            this.sign = sign;
+            this.SIGN = sign;
+        }
+
+        public String getValue() {
+            return SIGN;
+        }
+
+        private static final Map<String, ArithmeticSign> MAP = new HashMap<>();
+
+        static {
+            for (ArithmeticSign sign : values()) {
+                MAP.put(sign.getValue(), sign);
+            }
         }
 
         public static ArithmeticSign fromSign(String sign) {
-            return Arrays.stream(values())
-                    .filter(v -> v.sign.equals(sign) )
-                    .findFirst().orElseThrow();
+            return MAP.get(sign);
         }
     }
 
-    public static int operate(int a, ArithmeticSign operation, int b) {
-        return Integer.parseInt(operate(getRomanByValue(a), operation, getRomanByValue(b)));
+    public static int operate(int a, String operation, int b) {
+        return operate(fromValue(a), operation, fromValue(b));
     }
 
-    public static String operate(ArabicRomanNumbers a, ArithmeticSign operation, ArabicRomanNumbers b) {
-        switch (operation) {
+    public static int operate(ArabicRomanNumbers a, String operation, ArabicRomanNumbers b) {
+        switch (ArithmeticSign.fromSign(operation)) {
             case PLUS -> {
                 return sum(a, b);
             }
@@ -46,36 +54,38 @@ public class Operations {
             case MULTIPLICATION -> {
                 return multiplication(a, b);
             }
+            default -> {
+                throw new IllegalArgumentException("Слышб такого знака нет");
+            }
         }
-        return null;
     }
 
-    private static String sum(ArabicRomanNumbers a, ArabicRomanNumbers b) {
-        return String.valueOf(sum(a.getValue(), b.getValue()));
+    private static int sum(ArabicRomanNumbers a, ArabicRomanNumbers b) {
+        return sum(a.getValue(), b.getValue());
     }
 
     private static int sum(int a, int b) {
         return a + b;
     }
 
-    private static String difference(ArabicRomanNumbers a, ArabicRomanNumbers b) {
-        return String.valueOf(difference(a.getValue(), b.getValue()));
+    private static int difference(ArabicRomanNumbers a, ArabicRomanNumbers b) {
+        return difference(a.getValue(), b.getValue());
     }
 
     private static int difference(int a, int b) {
         return a - b;
     }
 
-    private static String division(ArabicRomanNumbers a, ArabicRomanNumbers b) {
-        return String.valueOf(division(a.getValue(), b.getValue()));
+    private static int division(ArabicRomanNumbers a, ArabicRomanNumbers b) {
+        return division(a.getValue(), b.getValue());
     }
 
     private static int division(int a, int b) {
         return a / b;
     }
 
-    private static String multiplication(ArabicRomanNumbers a, ArabicRomanNumbers b) {
-        return String.valueOf(multiplication(a.getValue(), b.getValue()));
+    private static int multiplication(ArabicRomanNumbers a, ArabicRomanNumbers b) {
+        return multiplication(a.getValue(), b.getValue());
     }
 
     private static int multiplication(int a, int b) {

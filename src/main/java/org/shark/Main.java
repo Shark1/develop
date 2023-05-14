@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.shark.Number.ArabicRomanNumbers;
-
 import static org.shark.CalculateOperation.getResult;
 
 public class Main {
